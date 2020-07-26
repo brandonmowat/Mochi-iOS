@@ -119,34 +119,44 @@ struct ContentView: View {
                 }})
     }
     
+    // The toolbar
+    var Toolbar: some View {
+        HStack {
+            Spacer()
+            Button("Post Actions", action: {self.showActionSheet.toggle()})
+                .padding(.horizontal)
+        }
+        .padding(.bottom, 20)
+        .actionSheet(isPresented: $showActionSheet) {
+            ActionSheet(
+                title: Text("Actions"),
+                message: Text("Available actions"),
+                buttons: [
+                    .default(Text("Just Save"), action: {self.saveArticle()}),
+                    .default(Text("Save & Publish"), action: {self.saveArticle(publish: true)}),
+                    .default(Text("Save & Unpublish"), action: {self.saveArticle(publish: false)}),
+                    .destructive(Text("Delete Post"), action: {self.deletePost()})
+                ]
+            )
+        }
+    }
+    
+    // This is where we write our posts
     var body: some View {
         VStack {
             if (self.article == nil) {
                 Text("No Article selected")
             } else {
                 
-                TextField("New Post", text: $BlogPostTitle).padding()
-                TextView(text: $BlogPostBody).padding()
-                    
-                HStack {
-                    Button("Post Actions", action: {self.showActionSheet.toggle()})
-                    .actionSheet(isPresented: $showActionSheet) {
-                        ActionSheet(
-                            title: Text("Actions"),
-                            message: Text("Available actions"),
-                            buttons: [
-                                .default(Text("Just Save"), action: {self.saveArticle()}),
-                                .default(Text("Save & Publish"), action: {self.saveArticle(publish: true)}),
-                                .default(Text("Save & Unpublish"), action: {self.saveArticle(publish: false)}),
-                                .destructive(Text("Delete Post"), action: {self.deletePost()})
-                            ]
-                        )
-                    }
-                }.padding()
+                TextField("Article Title", text: $BlogPostTitle).padding()
+                TextView(text: $BlogPostBody)
+                    .padding(.horizontal)
+                Divider()
+                Toolbar
                     
             }
             
-        }.navigationBarTitle(self.BlogPostTitle)
+        }
     }
 }
 

@@ -18,7 +18,10 @@ struct HomeView: View {
     var articles: some View {
         return List(articlesState.articlesState, id: \.id) { article in
             NavigationLink(destination: ContentView(article: article, viewRouter: self.viewRouter, articlesState: self.articlesState)) {
-                Text(article.title)
+                HStack {
+                    Text(article.title != "" ? article.title : "UNTITLED ARTICLE")
+                    Spacer()
+                }
             }
         }
     }
@@ -36,7 +39,7 @@ struct HomeView: View {
                       api.POST(
                       path: "articles/",
                       bodyDict: [
-                        "title": "New Post",
+                        "title": "",
                         "body": "",],
                       callback: {(response: Any) -> Void in do {
                         
