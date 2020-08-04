@@ -58,6 +58,10 @@ struct HomeView: View {
                         }})
                   }).offset(y: 0)
             })
+            
+            if (self.articlesState.articlesState.count > 0) {
+                ContentView(article: self.articlesState.articlesState[0], viewRouter: self.viewRouter, articlesState: self.articlesState)
+            }
                 
         }.onAppear {
             APIController().GET(path: "articles/", callback: {(response: Any) -> Void in do {

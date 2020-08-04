@@ -8,51 +8,6 @@
 
 import SwiftUI
 
-struct TextView: UIViewRepresentable {
-    @Binding var text: String
-    
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self)
-    }
-    
-    func makeUIView(context: Context) -> UITextView {
-        
-        let myTextView = UITextView()
-        myTextView.delegate = context.coordinator
-        
-        myTextView.font = UIFont(name: "HelveticaNeue", size: 20)
-        myTextView.isScrollEnabled = true
-        myTextView.isEditable = true
-        myTextView.isUserInteractionEnabled = true
-//        myTextView.backgroundColor = UIColor(white: 0.0, alpha: 0.05)
-        
-        return myTextView
-    }
-    
-    func updateUIView(_ uiView: UITextView, context: Context) {
-        uiView.text = text
-    }
-    
-    class Coordinator : NSObject, UITextViewDelegate {
-        
-        var parent: TextView
-        
-        init(_ uiTextView: TextView) {
-            self.parent = uiTextView
-        }
-        
-        func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-            return true
-        }
-        
-        func textViewDidChange(_ textView: UITextView) {
-            print("text now: \(String(describing: textView.text!))")
-            self.parent.text = textView.text
-        }
-    }
-}
-
-
 struct ContentView: View {
     
     var article: Article?
@@ -61,8 +16,9 @@ struct ContentView: View {
     @ObservedObject var articlesState: ArticlesState
     
     @State var BlogPostTitle: String
+    @State var BlogPostDescription: String
     @State var BlogPostBody: String
-    
+        
     @State var showActionSheet = false
     
     init(article: Article?, viewRouter: ViewRouter, articlesState: ArticlesState) {
@@ -71,6 +27,7 @@ struct ContentView: View {
         self.article = article
         
         _BlogPostTitle = State(initialValue: article!.title)
+        _BlogPostDescription = State(initialValue: article!.description ?? "")
         _BlogPostBody = State(initialValue: article!.body)
     }
     
@@ -84,6 +41,7 @@ struct ContentView: View {
                 "created": self.article!.created,
                 "isPublished": publish != nil ? publish! : self.article!.isPublished,
                 "title": self.BlogPostTitle,
+                "description": self.BlogPostDescription,
                 "body": self.BlogPostBody],
             callback: {(response: Any) -> Void in do {
                 api.GET(path: "articles/", callback: {(response: Any) -> Void in do {
@@ -124,9 +82,8 @@ struct ContentView: View {
         HStack {
             Spacer()
             Button("Post Actions", action: {self.showActionSheet.toggle()})
-                .padding(.horizontal)
+                .padding()
         }
-        .padding(.bottom, 20)
         .actionSheet(isPresented: $showActionSheet) {
             ActionSheet(
                 title: Text("Actions"),
@@ -144,19 +101,32 @@ struct ContentView: View {
     // This is where we write our posts
     var body: some View {
         VStack {
+            
             if (self.article == nil) {
                 Text("No Article selected")
             } else {
+                ScrollView {
+                    TextField("Article Title", text: $BlogPostTitle)
+                        .font(.largeTitle)
+                        .padding(.horizontal, 16)
+                        .padding(.bottom, 8)
+                    
+                    TextField("Description", text: $BlogPostDescription)
+                        .font(.headline)
+                        .padding(.horizontal, 18)
+                        .padding(.bottom, 8)
+                    
+                    MultilineTextField("Make your masterpiece", text: $BlogPostBody)
+                        .padding(.horizontal, 14)
+                }.padding(0)
                 
-                TextField("Article Title", text: $BlogPostTitle).padding()
-                TextView(text: $BlogPostBody)
-                    .padding(.horizontal)
                 Divider()
                 Toolbar
-                    
+
             }
             
         }
+
     }
 }
 

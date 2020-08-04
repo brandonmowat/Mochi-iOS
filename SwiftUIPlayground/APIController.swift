@@ -9,7 +9,7 @@
 import Foundation
 
 class APIController {
-    private var urlString = "https://brandon-server.herokuapp.com/"
+    private var urlString = "https://brandon-server.herokuapp.com/api/v1/"
     
     func GET(path: String, callback: @escaping (_: Any) -> Void) {
         let url = URL(string: self.urlString + path)!

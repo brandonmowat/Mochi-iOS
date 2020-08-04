@@ -15,6 +15,7 @@ struct Article: Decodable {
     var created: String
     var isPublished: Bool
     var title: String
+    var description: String?
     var body: String
     
     init() {
@@ -22,6 +23,7 @@ struct Article: Decodable {
         self.created = ""
         self.isPublished = false
         self.title = ""
+        self.description = ""
         self.body = ""
     }
 }

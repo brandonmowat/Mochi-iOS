@@ -19,6 +19,7 @@
 		CAEE443524B0C39100614388 /* SwiftUIPlaygroundTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEE443424B0C39100614388 /* SwiftUIPlaygroundTests.swift */; };
 		CAEE444024B3AAED00614388 /* APIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEE443F24B3AAED00614388 /* APIController.swift */; };
 		CAF11E1224CA8A4000890CC9 /* ArticlesState.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF11E1124CA8A4000890CC9 /* ArticlesState.swift */; };
+		CAFC173D24D258A10026AF77 /* MultilineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFC173C24D258A10026AF77 /* MultilineTextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,7 @@
 		CAEE443624B0C39100614388 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CAEE443F24B3AAED00614388 /* APIController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIController.swift; sourceTree = "<group>"; };
 		CAF11E1124CA8A4000890CC9 /* ArticlesState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticlesState.swift; sourceTree = "<group>"; };
+		CAFC173C24D258A10026AF77 /* MultilineTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultilineTextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +128,7 @@
 				CA0FF71324C4EA8D00C300D0 /* MotherView.swift */,
 				CA0FF71124C4E23900C300D0 /* HomeView.swift */,
 				CAEE442124B0C38F00614388 /* ContentView.swift */,
+				CAFC173C24D258A10026AF77 /* MultilineTextField.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -237,6 +240,7 @@
 				CA0FF71424C4EA8D00C300D0 /* MotherView.swift in Sources */,
 				CAEE441E24B0C38F00614388 /* AppDelegate.swift in Sources */,
 				CAEE442024B0C38F00614388 /* SceneDelegate.swift in Sources */,
+				CAFC173D24D258A10026AF77 /* MultilineTextField.swift in Sources */,
 				CA0FF71224C4E23900C300D0 /* HomeView.swift in Sources */,
 				CAEE442224B0C38F00614388 /* ContentView.swift in Sources */,
 			);
