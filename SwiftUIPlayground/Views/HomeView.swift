@@ -19,11 +19,25 @@ struct HomeView: View {
         return List(articlesState.articlesState, id: \.id) { article in
             NavigationLink(destination: ContentView(article: article, viewRouter: self.viewRouter, articlesState: self.articlesState)) {
                 HStack {
-                    Text(article.title != "" ? article.title : "UNTITLED ARTICLE")
+                    VStack(alignment: .leading) {
+                        Text(article.title != "" ? article.title : "UNTITLED ARTICLE")
+                            .font(.title)
+                            .padding(.bottom, 4)
+                        Text(article.description!)
+                            .font(.body)
+                    }
                     Spacer()
                 }
             }
+            .padding(12)
+//            .overlay(
+//                RoundedRectangle(cornerRadius: 20)
+//                .stroke(Color.purple, lineWidth: 5)
+//            )
+
         }
+        .padding(.leading, 20)
+        .frame(minWidth: nil, idealWidth: 800, maxWidth: 800, minHeight: nil, idealHeight: nil, maxHeight: nil, alignment: .center)
     }
     
     var body: some View {
@@ -63,7 +77,9 @@ struct HomeView: View {
                 ContentView(article: self.articlesState.articlesState[0], viewRouter: self.viewRouter, articlesState: self.articlesState)
             }
                 
-        }.onAppear {
+        }
+        .navigationViewStyle(StackNavigationViewStyle())
+        .onAppear {
             APIController().GET(path: "articles/", callback: {(response: Any) -> Void in do {
                 let decoder = JSONDecoder()
                 let articles: [Article] = try! decoder.decode([Article].self, from: response as! Data)

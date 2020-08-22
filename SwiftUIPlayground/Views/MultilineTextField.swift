@@ -28,7 +28,8 @@ fileprivate struct UITextViewWrapper: UIViewRepresentable {
         ])
 
         textField.isEditable = true
-        textField.font = UIFont(name: "Georgia", size: 20)
+//        textField.font = UIFont(name: "Georgia", size: 20)
+        textField.font = UIFont.systemFont(ofSize: 22)
         textField.isSelectable = true
         textField.isUserInteractionEnabled = true
         textField.isScrollEnabled = false

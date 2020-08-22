@@ -21,6 +21,7 @@ struct ContentView: View {
         
     @State var showActionSheet = false
     
+    
     init(article: Article?, viewRouter: ViewRouter, articlesState: ArticlesState) {
         self.viewRouter = viewRouter
         self.articlesState = articlesState
@@ -77,24 +78,47 @@ struct ContentView: View {
                 }})
     }
     
+    // A function to get the correct action corresponding to an article that we're editing
+    func getActionButton() -> Alert.Button {
+        let publishAction = self.article?.isPublished ?? false
+            ? Alert.Button.default(Text("Save & Unpublish"), action: {self.saveArticle(publish: false)})
+            : Alert.Button.default(Text("Save & Publish"), action: {self.saveArticle(publish: true)})
+        return publishAction
+    }
+    
+    var ArticleStatus: some View {
+        let isPublished = self.article?.isPublished ?? false
+        let color = isPublished ? Color.green : Color.yellow
+        let copy = isPublished ? "Published" : "Unpublished"
+        let icon = isPublished
+            ? Image(systemName: "checkmark.circle.fill")
+            : Image(systemName: "exclamationmark.circle.fill")
+        
+        return HStack {
+            Text(copy)
+            icon.foregroundColor(color)
+        }
+    }
+    
+    
     // The toolbar
     var Toolbar: some View {
         HStack {
+            
             Spacer()
             Button("Post Actions", action: {self.showActionSheet.toggle()})
+                .actionSheet(isPresented: $showActionSheet) {
+                    ActionSheet(
+                        title: Text("Actions"),
+                        message: Text("Available actions"),
+                        buttons: [
+                            self.getActionButton(),
+                            .default(Text("Just Save"), action: {self.saveArticle()}),
+                            .destructive(Text("Delete Post"), action: {self.deletePost()})
+                        ]
+                    )
+                }
                 .padding()
-        }
-        .actionSheet(isPresented: $showActionSheet) {
-            ActionSheet(
-                title: Text("Actions"),
-                message: Text("Available actions"),
-                buttons: [
-                    .default(Text("Just Save"), action: {self.saveArticle()}),
-                    .default(Text("Save & Publish"), action: {self.saveArticle(publish: true)}),
-                    .default(Text("Save & Unpublish"), action: {self.saveArticle(publish: false)}),
-                    .destructive(Text("Delete Post"), action: {self.deletePost()})
-                ]
-            )
         }
     }
     
@@ -105,20 +129,23 @@ struct ContentView: View {
             if (self.article == nil) {
                 Text("No Article selected")
             } else {
-                ScrollView {
-                    TextField("Article Title", text: $BlogPostTitle)
-                        .font(.largeTitle)
-                        .padding(.horizontal, 16)
-                        .padding(.bottom, 8)
-                    
-                    TextField("Description", text: $BlogPostDescription)
-                        .font(.headline)
-                        .padding(.horizontal, 18)
-                        .padding(.bottom, 8)
-                    
-                    MultilineTextField("Make your masterpiece", text: $BlogPostBody)
-                        .padding(.horizontal, 14)
-                }.padding(0)
+                ScrollView() {
+                    VStack {
+                        TextField("Article Title", text: $BlogPostTitle)
+                            .font(.largeTitle)
+                            .padding(.horizontal, 16)
+                            .padding(.bottom, 8)
+                        
+                        TextField("Description", text: $BlogPostDescription)
+                            .font(.headline)
+                            .padding(.horizontal, 18)
+                            .padding(.bottom, 8)
+                        
+                        MultilineTextField("Make your masterpiece", text: $BlogPostBody)
+                            .padding(.horizontal, 14)
+                    }.frame(minWidth: nil, idealWidth: 800, maxWidth: 800, minHeight: nil, idealHeight: nil, maxHeight: nil, alignment: .center)
+                }
+                .padding(0)
                 
                 Divider()
                 Toolbar
@@ -126,6 +153,7 @@ struct ContentView: View {
             }
             
         }
+        .navigationBarItems(trailing: ArticleStatus)
 
     }
 }

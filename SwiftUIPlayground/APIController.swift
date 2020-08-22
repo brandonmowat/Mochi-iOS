@@ -13,8 +13,13 @@ class APIController {
     
     func GET(path: String, callback: @escaping (_: Any) -> Void) {
         let url = URL(string: self.urlString + path)!
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Basic Zm9vOmJhcg==", forHTTPHeaderField: "Authorization")
 
-        let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
+        let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
             guard let data = data else { return }
             
             do {
@@ -46,6 +51,8 @@ class APIController {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Basic Zm9vOmJhcg==", forHTTPHeaderField: "Authorization")
+
         guard let httpBody = try? JSONSerialization.data(withJSONObject: bodyDict, options: []) else {
             return
         }
@@ -77,6 +84,8 @@ class APIController {
         var request = URLRequest(url: url)
         request.httpMethod = "PATCH"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Basic Zm9vOmJhcg==", forHTTPHeaderField: "Authorization")
+        
         guard let httpBody = try? JSONSerialization.data(withJSONObject: bodyDict, options: []) else {
             return
         }
@@ -108,6 +117,8 @@ class APIController {
         var request = URLRequest(url: url)
         request.httpMethod = "DELETE"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Basic Zm9vOmJhcg==", forHTTPHeaderField: "Authorization")
+        
         guard let httpBody = try? JSONSerialization.data(withJSONObject: bodyDict, options: []) else {
             return
         }
