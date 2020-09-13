@@ -10,6 +10,19 @@ import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
+    
+    // Keyboard Shortcuts
+    override var keyCommands: [UIKeyCommand]? {
+        return [
+            UIKeyCommand(title: "Save", action: #selector(handleKeyCommand(sender:)), input: "s", modifierFlags: .command, propertyList: 1),
+        ]
+    }
+    
+    @objc func handleKeyCommand(sender: UIKeyCommand) {
+        if let postActionsShortcutKey = sender.input {
+            NotificationCenter.default.post(name: .init("postActionsShortcut"), object: postActionsShortcutKey)
+        }
+    }
 
 
 

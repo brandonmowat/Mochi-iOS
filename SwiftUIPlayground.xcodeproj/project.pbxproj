@@ -10,6 +10,7 @@
 		CA0FF71224C4E23900C300D0 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0FF71124C4E23900C300D0 /* HomeView.swift */; };
 		CA0FF71424C4EA8D00C300D0 /* MotherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0FF71324C4EA8D00C300D0 /* MotherView.swift */; };
 		CA0FF71624C4EEE300C300D0 /* ViewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0FF71524C4EEE300C300D0 /* ViewRouter.swift */; };
+		CAD2388B24F3615700077C2D /* PublishedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD2388A24F3615700077C2D /* PublishedLabel.swift */; };
 		CAEE441E24B0C38F00614388 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEE441D24B0C38F00614388 /* AppDelegate.swift */; };
 		CAEE442024B0C38F00614388 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEE441F24B0C38F00614388 /* SceneDelegate.swift */; };
 		CAEE442224B0C38F00614388 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEE442124B0C38F00614388 /* ContentView.swift */; };
@@ -36,6 +37,7 @@
 		CA0FF71124C4E23900C300D0 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		CA0FF71324C4EA8D00C300D0 /* MotherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotherView.swift; sourceTree = "<group>"; };
 		CA0FF71524C4EEE300C300D0 /* ViewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRouter.swift; sourceTree = "<group>"; };
+		CAD2388A24F3615700077C2D /* PublishedLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishedLabel.swift; sourceTree = "<group>"; };
 		CAEE441A24B0C38F00614388 /* SwiftUIPlayground.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftUIPlayground.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAEE441D24B0C38F00614388 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CAEE441F24B0C38F00614388 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -70,6 +72,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CAD2388924F3611E00077C2D /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				CAD2388A24F3615700077C2D /* PublishedLabel.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		CAEE441124B0C38F00614388 = {
 			isa = PBXGroup;
 			children = (
@@ -91,6 +101,7 @@
 		CAEE441C24B0C38F00614388 /* SwiftUIPlayground */ = {
 			isa = PBXGroup;
 			children = (
+				CAD2388924F3611E00077C2D /* Components */,
 				CAF11E1324CDF24400890CC9 /* Views */,
 				CAEE443F24B3AAED00614388 /* APIController.swift */,
 				CAEE441D24B0C38F00614388 /* AppDelegate.swift */,
@@ -239,6 +250,7 @@
 				CAF11E1224CA8A4000890CC9 /* ArticlesState.swift in Sources */,
 				CA0FF71424C4EA8D00C300D0 /* MotherView.swift in Sources */,
 				CAEE441E24B0C38F00614388 /* AppDelegate.swift in Sources */,
+				CAD2388B24F3615700077C2D /* PublishedLabel.swift in Sources */,
 				CAEE442024B0C38F00614388 /* SceneDelegate.swift in Sources */,
 				CAFC173D24D258A10026AF77 /* MultilineTextField.swift in Sources */,
 				CA0FF71224C4E23900C300D0 /* HomeView.swift in Sources */,

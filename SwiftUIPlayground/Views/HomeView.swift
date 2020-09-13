@@ -27,6 +27,7 @@ struct HomeView: View {
                             .font(.body)
                     }
                     Spacer()
+                    PublishedLabel(article: article)
                 }
             }
             .padding(12)
@@ -37,7 +38,6 @@ struct HomeView: View {
 
         }
         .padding(.leading, 20)
-        .frame(minWidth: nil, idealWidth: 800, maxWidth: 800, minHeight: nil, idealHeight: nil, maxHeight: nil, alignment: .center)
     }
     
     var body: some View {
@@ -78,6 +78,7 @@ struct HomeView: View {
             }
                 
         }
+        // this forces a stack navigation style. Comment this out to use the default
         .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {
             APIController().GET(path: "articles/", callback: {(response: Any) -> Void in do {

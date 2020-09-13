@@ -86,20 +86,6 @@ struct ContentView: View {
         return publishAction
     }
     
-    var ArticleStatus: some View {
-        let isPublished = self.article?.isPublished ?? false
-        let color = isPublished ? Color.green : Color.yellow
-        let copy = isPublished ? "Published" : "Unpublished"
-        let icon = isPublished
-            ? Image(systemName: "checkmark.circle.fill")
-            : Image(systemName: "exclamationmark.circle.fill")
-        
-        return HStack {
-            Text(copy)
-            icon.foregroundColor(color)
-        }
-    }
-    
     
     // The toolbar
     var Toolbar: some View {
@@ -145,6 +131,14 @@ struct ContentView: View {
                             .padding(.horizontal, 14)
                     }.frame(minWidth: nil, idealWidth: 800, maxWidth: 800, minHeight: nil, idealHeight: nil, maxHeight: nil, alignment: .center)
                 }
+                // Keyboard Shortcuts
+                .onReceive(NotificationCenter.default.publisher(for: Notification.Name("postActionsShortcut"))) { notification in
+                    if let postActionsShortcutKey = notification.object as? String {
+                        if postActionsShortcutKey == "s" {
+                         self.saveArticle()
+                        }
+                    }
+                }
                 .padding(0)
                 
                 Divider()
@@ -153,7 +147,7 @@ struct ContentView: View {
             }
             
         }
-        .navigationBarItems(trailing: ArticleStatus)
+        .navigationBarItems(trailing: PublishedLabel(article: article))
 
     }
 }
