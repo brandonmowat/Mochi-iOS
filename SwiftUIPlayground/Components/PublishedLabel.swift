@@ -10,6 +10,7 @@ import SwiftUI
 
 struct PublishedLabel: View {
     var article: Article?
+    var isUnsaved: Bool? = false
     var textLabel: Bool? = false
 
     var body: some View {
@@ -17,8 +18,12 @@ struct PublishedLabel: View {
         let color = isPublished ? Color.green : Color.yellow
         let copy = isPublished ? "Published" : "Unpublished"
         let icon = isPublished
-            ? Image(systemName: "checkmark.circle.fill")
-            : Image(systemName: "exclamationmark.circle.fill")
+            ? isUnsaved ?? false
+                ? Image(systemName: "checkmark.circle")
+                : Image(systemName: "checkmark.circle.fill")
+            : isUnsaved ?? false
+                ? Image(systemName: "exclamationmark.circle")
+                : Image(systemName: "exclamationmark.circle.fill")
         
         return HStack {
             if (self.textLabel!) {

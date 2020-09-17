@@ -18,7 +18,7 @@ struct ContentView: View {
     @State var BlogPostTitle: String
     @State var BlogPostDescription: String
     @State var BlogPostBody: String
-        
+            
     @State var showActionSheet = false
     
     
@@ -147,7 +147,7 @@ struct ContentView: View {
             }
             
         }
-        .navigationBarItems(trailing: PublishedLabel(article: article))
+        .navigationBarItems(trailing: PublishedLabel(article: article, isUnsaved: article!.body != self.BlogPostBody))
 
     }
 }
