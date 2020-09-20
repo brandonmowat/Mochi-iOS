@@ -15,15 +15,13 @@ struct PublishedLabel: View {
 
     var body: some View {
         let isPublished = self.article?.isPublished ?? false
-        let color = isPublished ? Color.green : Color.yellow
+        let color = !isUnsaved! ? Color.green : Color.yellow
         let copy = isPublished ? "Published" : "Unpublished"
         let icon = isPublished
             ? isUnsaved ?? false
-                ? Image(systemName: "checkmark.circle")
-                : Image(systemName: "checkmark.circle.fill")
-            : isUnsaved ?? false
-                ? Image(systemName: "exclamationmark.circle")
-                : Image(systemName: "exclamationmark.circle.fill")
+                ? Image(systemName: "rectangle.badge.minus")
+                : Image(systemName: "rectangle.fill.badge.checkmark")
+            : Image(systemName: "doc.plaintext")
         
         return HStack {
             if (self.textLabel!) {

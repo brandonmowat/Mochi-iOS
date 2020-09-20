@@ -21,6 +21,8 @@ struct ContentView: View {
             
     @State var showActionSheet = false
     
+    @State private var showingAlert = false
+    
     
     init(article: Article?, viewRouter: ViewRouter, articlesState: ArticlesState) {
         self.viewRouter = viewRouter
@@ -100,22 +102,28 @@ struct ContentView: View {
                         buttons: [
                             self.getActionButton(),
                             .default(Text("Just Save"), action: {self.saveArticle()}),
-                            .destructive(Text("Delete Post"), action: {self.deletePost()})
+                            .destructive(Text("Delete Post"), action: {self.showingAlert = true})
                         ]
                     )
                 }
                 .padding()
+            
+        // Alert the user to confirm deletion
+        }.alert(isPresented: $showingAlert) {
+            Alert(title: Text("Are you sure you want to delete this?"), message: Text("There is no undo"), primaryButton: .destructive(Text("Delete")) {
+                    self.deletePost()
+                }, secondaryButton: .cancel())
         }
     }
     
     // This is where we write our posts
     var body: some View {
-        VStack {
+        ScrollView {
             
             if (self.article == nil) {
                 Text("No Article selected")
             } else {
-                ScrollView() {
+                VStack {
                     VStack {
                         TextField("Article Title", text: $BlogPostTitle)
                             .font(.largeTitle)
@@ -130,7 +138,12 @@ struct ContentView: View {
                         MultilineTextField("Make your masterpiece", text: $BlogPostBody)
                             .padding(.horizontal, 14)
                     }.frame(minWidth: nil, idealWidth: 800, maxWidth: 800, minHeight: nil, idealHeight: nil, maxHeight: nil, alignment: .center)
-                }
+                }.frame(minWidth: 0,
+                        maxWidth: .infinity,
+                        minHeight: 0,
+                        maxHeight: .infinity,
+                        alignment: .center
+                )
                 // Keyboard Shortcuts
                 .onReceive(NotificationCenter.default.publisher(for: Notification.Name("postActionsShortcut"))) { notification in
                     if let postActionsShortcutKey = notification.object as? String {
@@ -139,15 +152,15 @@ struct ContentView: View {
                         }
                     }
                 }
-                .padding(0)
                 
-                Divider()
-                Toolbar
 
             }
             
         }
+                
         .navigationBarItems(trailing: PublishedLabel(article: article, isUnsaved: article!.body != self.BlogPostBody))
+        Divider()
+        Toolbar
 
     }
 }

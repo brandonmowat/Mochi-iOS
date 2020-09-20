@@ -12,6 +12,9 @@ struct HomeView: View {
     
     @ObservedObject var viewRouter: ViewRouter
     @ObservedObject var articlesState: ArticlesState
+    
+    @State var loadingArticles: Bool = false
+    
         
     let decoder = JSONDecoder()
     
@@ -31,17 +34,16 @@ struct HomeView: View {
                 }
             }
             .padding(12)
-//            .overlay(
-//                RoundedRectangle(cornerRadius: 20)
-//                .stroke(Color.purple, lineWidth: 5)
-//            )
-
         }
-        .padding(.leading, 20)
     }
     
     var body: some View {
         NavigationView {
+            
+            
+            if loadingArticles == true {
+                ProgressView("Loading Articles. This may take a moment...")
+            }
             
             articles
             
@@ -54,7 +56,8 @@ struct HomeView: View {
                       path: "articles/",
                       bodyDict: [
                         "title": "",
-                        "body": "",],
+                        "body": "",
+                        "description": ""],
                       callback: {(response: Any) -> Void in do {
                         
                         api.GET(path: "articles/", callback: {(response: Any) -> Void in do {
@@ -81,9 +84,14 @@ struct HomeView: View {
         // this forces a stack navigation style. Comment this out to use the default
         .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {
+            // Set loading indicator
+            loadingArticles = true
+            
             APIController().GET(path: "articles/", callback: {(response: Any) -> Void in do {
                 let decoder = JSONDecoder()
                 let articles: [Article] = try! decoder.decode([Article].self, from: response as! Data)
+                
+                loadingArticles = false
 
                 DispatchQueue.main.async {
                     self.articlesState.articlesState = articles
