@@ -20,6 +20,7 @@ struct ContentView: View {
     @State var BlogPostBody: String
             
     @State var showActionSheet = false
+    @State var isSaving: Bool = false
     
     @State private var showingAlert = false
     
@@ -36,6 +37,8 @@ struct ContentView: View {
     
     func saveArticle(publish: Bool? = nil) -> Void {
         let api = APIController()
+        
+        self.isSaving = true
         
         api.PATCH(
             path: "articles/\(self.article!.id)",
@@ -54,6 +57,8 @@ struct ContentView: View {
                     DispatchQueue.main.async {
                         self.articlesState.articlesState = articles
                     }
+                    
+                    self.isSaving = false
                     return
                     }})
                 }})
@@ -158,7 +163,7 @@ struct ContentView: View {
             
         }
                 
-        .navigationBarItems(trailing: PublishedLabel(article: article, isUnsaved: article!.body != self.BlogPostBody))
+        .navigationBarItems(trailing: PublishedLabel(article: article, isUnsaved: article!.body != self.BlogPostBody, isSaving: self.isSaving))
         Divider()
         Toolbar
 

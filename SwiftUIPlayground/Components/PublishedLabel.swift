@@ -12,6 +12,7 @@ struct PublishedLabel: View {
     var article: Article?
     var isUnsaved: Bool? = false
     var textLabel: Bool? = false
+    var isSaving: Bool? = false
 
     var body: some View {
         let isPublished = self.article?.isPublished ?? false
@@ -24,11 +25,13 @@ struct PublishedLabel: View {
             : Image(systemName: "doc.plaintext")
         
         return HStack {
-            if (self.textLabel!) {
+            if (self.isSaving!) {
+                Text("Saving... ").foregroundColor(Color.gray)
+            } else if (self.textLabel!) {
                 Text(copy)
             }
             icon.foregroundColor(color)
-        }
+        }.frame(width: 100, height: nil, alignment: .trailing)
     }
 }
 
