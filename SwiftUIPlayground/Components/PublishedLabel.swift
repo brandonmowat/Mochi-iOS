@@ -31,7 +31,7 @@ struct PublishedLabel: View {
                 Text(copy)
             }
             icon.foregroundColor(color)
-        }.frame(width: 100, height: nil, alignment: .trailing)
+        }.frame(width: 110, height: nil, alignment: .trailing)
     }
 }
 

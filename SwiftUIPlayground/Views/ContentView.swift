@@ -15,6 +15,7 @@ struct ContentView: View {
     @ObservedObject var viewRouter: ViewRouter
     @ObservedObject var articlesState: ArticlesState
     
+    @State var BlogPostPublishedDate: Date
     @State var BlogPostTitle: String
     @State var BlogPostDescription: String
     @State var BlogPostBody: String
@@ -30,6 +31,10 @@ struct ContentView: View {
         self.articlesState = articlesState
         self.article = article
         
+        let isoformatter = ISO8601DateFormatter.init()
+        
+        
+        _BlogPostPublishedDate = State(initialValue: isoformatter.date(from: article!.publishedDate ?? "") ?? Date())
         _BlogPostTitle = State(initialValue: article!.title)
         _BlogPostDescription = State(initialValue: article!.description ?? "")
         _BlogPostBody = State(initialValue: article!.body)
@@ -37,6 +42,7 @@ struct ContentView: View {
     
     func saveArticle(publish: Bool? = nil) -> Void {
         let api = APIController()
+        let isoformatter = ISO8601DateFormatter.init()
         
         self.isSaving = true
         
@@ -45,6 +51,7 @@ struct ContentView: View {
             bodyDict: [
                 "id": self.article!.id,
                 "created": self.article!.created,
+                "publishedDate": isoformatter.string(from: self.BlogPostPublishedDate),
                 "isPublished": publish != nil ? publish! : self.article!.isPublished,
                 "title": self.BlogPostTitle,
                 "description": self.BlogPostDescription,
@@ -130,6 +137,12 @@ struct ContentView: View {
             } else {
                 VStack {
                     VStack {
+                        DatePicker(selection: $BlogPostPublishedDate, in: ...Date(), displayedComponents: .date) {
+                            Text("Published Date")
+                        }
+                            .padding(.horizontal, 16)
+                            .padding(.bottom, 8)
+                        
                         TextField("Article Title", text: $BlogPostTitle)
                             .font(.largeTitle)
                             .padding(.horizontal, 16)
