@@ -10,10 +10,13 @@ import SwiftUI
 
 struct HomeView: View {
     
+    let userData = UserData()
+    
     @ObservedObject var viewRouter: ViewRouter
     @ObservedObject var articlesState: ArticlesState
     
     @State var loadingArticles: Bool = false
+    @State var showSettings: Bool = false
     
         
     let decoder = JSONDecoder()
@@ -48,7 +51,15 @@ struct HomeView: View {
             articles
             
             .navigationBarTitle("Matcha & Mochi")
-            .navigationBarItems(trailing: HStack {
+            .navigationBarItems(
+                leading: HStack {
+                    Button("Settings", action: {
+                        self.showSettings.toggle()
+                    }).sheet(isPresented: $showSettings) {
+                        SettingsView()
+                    }
+                },
+                trailing: HStack {
                 Button("New Post", action: {
                     let api = APIController()
                     
@@ -74,6 +85,7 @@ struct HomeView: View {
                         
                         }})
                   }).offset(y: 0)
+                
             })
             
             if (self.articlesState.articlesState.count > 0) {
@@ -84,6 +96,7 @@ struct HomeView: View {
         // this forces a stack navigation style. Comment this out to use the default
         .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {
+            
             // Set loading indicator
             loadingArticles = true
             
@@ -98,7 +111,11 @@ struct HomeView: View {
                 }
                                 
                 return
-            }})
+            }}, onError: {
+                loadingArticles = false
+                
+                return
+            })
         }
     }
 }

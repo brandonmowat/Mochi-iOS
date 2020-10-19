@@ -9,28 +9,46 @@
 import Foundation
 
 class APIController {
-    private var urlString = "https://brandon-server.herokuapp.com/api/v1/"
+    // "https://brandon-server.herokuapp.com/api/v1/"
+    private var urlString = UserData().get(key: "apiURL")
     
-    func GET(path: String, callback: @escaping (_: Any) -> Void) {
+    var userData = UserData()
+    
+    func GET(path: String, callback: @escaping (_: Any) -> Void, onError: (() -> Void)? = nil) {
         let url = URL(string: self.urlString + path)!
         
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue("Basic Zm9vOmJhcg==", forHTTPHeaderField: "Authorization")
+//        auth.add(username: "foo", password: "bar")
+        print(userData.getBase64EncodedAuth())
+        do {
+            var request = URLRequest(url: url)
 
-        let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
-            guard let data = data else { return }
+            request.httpMethod = "GET"
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.setValue("Basic \(userData.getBase64EncodedAuth())", forHTTPHeaderField: "Authorization")
             
-            do {
-                let json = try JSONSerialization.jsonObject(with: data, options: [])
-                callback(data)
-            } catch {
-                print(error)
-            }
-        }
+            print(111)
 
-        task.resume()
+            let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
+                guard let data = data else {
+                    print(222)
+                    onError?()
+                    return
+                    
+                }
+                
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data, options: [])
+                    callback(data)
+                } catch {
+                    onError?()
+                    print(error)
+                }
+            }
+
+            task.resume()
+        } catch {
+            onError?()
+        }
     }
     
     func getArticles(callback: @escaping (_: Any) -> Void) {
