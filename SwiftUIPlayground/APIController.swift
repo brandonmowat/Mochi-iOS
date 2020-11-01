@@ -17,8 +17,6 @@ class APIController {
     func GET(path: String, callback: @escaping (_: Any) -> Void, onError: (() -> Void)? = nil) {
         let url = URL(string: self.urlString + path)!
         
-//        auth.add(username: "foo", password: "bar")
-        print(userData.getBase64EncodedAuth())
         do {
             var request = URLRequest(url: url)
 
@@ -26,8 +24,6 @@ class APIController {
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             request.setValue("Basic \(userData.getBase64EncodedAuth())", forHTTPHeaderField: "Authorization")
             
-            print(111)
-
             let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
                 guard let data = data else {
                     print(222)
@@ -69,7 +65,7 @@ class APIController {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue("Basic Zm9vOmJhcg==", forHTTPHeaderField: "Authorization")
+        request.setValue("Basic \(userData.getBase64EncodedAuth())", forHTTPHeaderField: "Authorization")
 
         guard let httpBody = try? JSONSerialization.data(withJSONObject: bodyDict, options: []) else {
             return
@@ -102,7 +98,7 @@ class APIController {
         var request = URLRequest(url: url)
         request.httpMethod = "PATCH"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue("Basic Zm9vOmJhcg==", forHTTPHeaderField: "Authorization")
+        request.setValue("Basic \(userData.getBase64EncodedAuth())", forHTTPHeaderField: "Authorization")
         
         guard let httpBody = try? JSONSerialization.data(withJSONObject: bodyDict, options: []) else {
             return
@@ -135,7 +131,7 @@ class APIController {
         var request = URLRequest(url: url)
         request.httpMethod = "DELETE"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue("Basic Zm9vOmJhcg==", forHTTPHeaderField: "Authorization")
+        request.setValue("Basic \(userData.getBase64EncodedAuth())", forHTTPHeaderField: "Authorization")
         
         guard let httpBody = try? JSONSerialization.data(withJSONObject: bodyDict, options: []) else {
             return
