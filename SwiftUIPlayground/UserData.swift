@@ -42,8 +42,8 @@ class UserData {
     }
     
     func getBase64EncodedAuth() -> String {
-        let username = self.get()["username"]!
-        let password = self.get()["password"]!
+        let username = self.get(key: "username")
+        let password = self.get(key: "password")
 
         return "\(username):\(password)".toBase64()
     }

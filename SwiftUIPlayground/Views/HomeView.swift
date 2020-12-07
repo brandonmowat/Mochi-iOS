@@ -22,7 +22,7 @@ struct HomeView: View {
     let decoder = JSONDecoder()
     
     var articles: some View {
-        return List(articlesState.articlesState, id: \.id) { article in
+        return List(articlesState.articlesState, id: \._id) { article in
             NavigationLink(destination: ContentView(article: article, viewRouter: self.viewRouter, articlesState: self.articlesState)) {
                 HStack {
                     VStack(alignment: .leading) {

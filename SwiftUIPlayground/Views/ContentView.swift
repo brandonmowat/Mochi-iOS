@@ -47,9 +47,9 @@ struct ContentView: View {
         self.isSaving = true
         
         api.PATCH(
-            path: "articles/\(self.article!.id)",
+            path: "articles/\(self.article!._id)",
             bodyDict: [
-                "id": self.article!.id,
+                "id": self.article!._id,
                 "created": self.article!.created,
                 "publishedDate": isoformatter.string(from: self.BlogPostPublishedDate),
                 "isPublished": publish != nil ? publish! : self.article!.isPublished,
@@ -75,7 +75,7 @@ struct ContentView: View {
         let api = APIController()
         
         api.DELETE(
-            path: "articles/\(self.article!.id)",
+            path: "articles/\(self.article!._id)",
             bodyDict: [
                 "title": self.BlogPostTitle,
                 "body": self.BlogPostBody],

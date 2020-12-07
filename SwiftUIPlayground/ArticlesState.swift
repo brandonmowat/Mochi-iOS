@@ -11,7 +11,7 @@ import Combine
 import SwiftUI
 
 struct Article: Decodable {
-    var id: String
+    var _id: String
     var created: String
     var publishedDate: String?
     var isPublished: Bool
@@ -20,7 +20,7 @@ struct Article: Decodable {
     var body: String
     
     init() {
-        self.id = ""
+        self._id = ""
         self.created = ""
         self.publishedDate = nil
         self.isPublished = false
