@@ -8,6 +8,13 @@
 
 import SwiftUI
 
+extension View {
+    func Print(_ vars: Any...) -> some View {
+        for v in vars { print(v) }
+        return EmptyView()
+    }
+}
+
 struct ContentView: View {
     
     var article: Article?
@@ -30,9 +37,8 @@ struct ContentView: View {
         self.viewRouter = viewRouter
         self.articlesState = articlesState
         self.article = article
-        
+                
         let isoformatter = ISO8601DateFormatter.init()
-        
         
         _BlogPostPublishedDate = State(initialValue: isoformatter.date(from: article!.publishedDate ?? "") ?? Date())
         _BlogPostTitle = State(initialValue: article!.title)
@@ -98,6 +104,10 @@ struct ContentView: View {
             ? Alert.Button.default(Text("Save & Unpublish"), action: {self.saveArticle(publish: false)})
             : Alert.Button.default(Text("Save & Publish"), action: {self.saveArticle(publish: true)})
         return publishAction
+    }
+    
+    func isUnsaved() -> Bool {
+        return articlesState.articlesState.first(where: { $0._id == article?._id })?.body != self.BlogPostBody
     }
     
     
@@ -175,8 +185,8 @@ struct ContentView: View {
             }
             
         }
-                
-        .navigationBarItems(trailing: PublishedLabel(article: article, isUnsaved: article!.body != self.BlogPostBody, isSaving: self.isSaving))
+                                
+        .navigationBarItems(trailing: PublishedLabel(article: self.article, isUnsaved: self.isUnsaved(), isSaving: self.isSaving))
         Divider()
         Toolbar
 
