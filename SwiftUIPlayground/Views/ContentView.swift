@@ -23,6 +23,7 @@ struct ContentView: View {
     @ObservedObject var articlesState: ArticlesState
     
     @State var BlogPostPublishedDate: Date
+    @State var BlogPostTags: String
     @State var BlogPostTitle: String
     @State var BlogPostDescription: String
     @State var BlogPostBody: String
@@ -41,6 +42,7 @@ struct ContentView: View {
         let isoformatter = ISO8601DateFormatter.init()
         
         _BlogPostPublishedDate = State(initialValue: isoformatter.date(from: article!.publishedDate ?? "") ?? Date())
+        _BlogPostTags = State(initialValue: article!.tags ?? "")
         _BlogPostTitle = State(initialValue: article!.title)
         _BlogPostDescription = State(initialValue: article!.description ?? "")
         _BlogPostBody = State(initialValue: article!.body)
@@ -58,6 +60,7 @@ struct ContentView: View {
                 "id": self.article!._id,
                 "created": self.article!.created,
                 "publishedDate": isoformatter.string(from: self.BlogPostPublishedDate),
+                "tags": self.BlogPostTags,
                 "isPublished": publish != nil ? publish! : self.article!.isPublished,
                 "title": self.BlogPostTitle,
                 "description": self.BlogPostDescription,
@@ -152,6 +155,16 @@ struct ContentView: View {
                         }
                             .padding(.horizontal, 16)
                             .padding(.bottom, 8)
+                        HStack {
+                            Text("Tags").font(.caption)
+                                .padding(.horizontal, 16)
+                            Spacer()
+                        }
+                        
+                        TextField("No tags yet :(", text: $BlogPostTags)
+                            .font(.body)
+                            .padding(.horizontal, 18)
+                            .padding(.bottom, 16)
                         
                         TextField("Article Title", text: $BlogPostTitle)
                             .font(.largeTitle)

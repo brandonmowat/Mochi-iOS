@@ -18,6 +18,8 @@ struct Article: Decodable {
     var title: String
     var description: String?
     var body: String
+    var tags: String?
+    
     
     init() {
         self._id = ""
@@ -27,6 +29,7 @@ struct Article: Decodable {
         self.title = ""
         self.description = ""
         self.body = ""
+        self.tags = ""
     }
 }
 
